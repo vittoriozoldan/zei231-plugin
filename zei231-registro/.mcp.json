@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "zei231-registro": {
+      "type": "http",
+      "url": "https://zei.services/api/mcp"
+    }
+  }
+}

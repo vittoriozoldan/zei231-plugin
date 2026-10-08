@@ -1,0 +1,15 @@
+{
+  "name": "zei231",
+  "owner": { "name": "Vittorio Zoldan", "email": "vittorio@gruppopresidium.it" },
+  "metadata": { "description": "ZEI 231: Modello 231 (D.Lgs. 231/2001) per l'era agentica.", "version": "1.2.0" },
+  "plugins": [
+    {
+      "name": "zei231-registro",
+      "source": "./zei231-registro",
+      "description": "Diagnosi preliminare 231, mappatura del processo amministrativo e richiesta di implementazione del Modello, tramite l'MCP di ZEI 231.",
+      "version": "1.2.0",
+      "homepage": "https://zei.services/guida",
+      "license": "MIT"
+    }
+  ]
+}
