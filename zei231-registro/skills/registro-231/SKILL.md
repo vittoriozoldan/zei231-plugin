@@ -1,15 +1,15 @@
 ---
 name: registro-231
-description: Show a company that is considering a Modello 231 a factual diagnosi preliminare first (registro_diagnosi_domande, registro_diagnosi_preliminare — the exposed famiglie di reato, a typical scenario, the sanctions, official numbers and real cases with sources, the art. 6–7 exemption) and then offer to start the Model; then run CO.DE's first 231 interview with a company group and then the consulente's mapping — the 5 facts about the business, CO.DE's documents checklist (78 voci, sections A–O, per società), then processi, attività sensibili, reati and protocolli — through this plugin's zei231-registro MCP server (registro_stato, registro_checklist, registro_checklist_rispondi, registro_scrivi_processo, registro_proponi_reati, registro_intervista, registro_intervista_rispondi, registro_applica_proposte, registro_mappatura_amministrazione, registro_richiedi_implementazione, and the rest of the registro_* tools). Use when the user wants to fill CO.DE's risk-assessment checklist, interview the client on the documents a società already has, hand a registro from the client to CO.DE, the consulente partner, or, as the consulente, map the group's processi in CO.DE's own order (AD, AF, FP, AP … WB), pre-populate an attività sensibile's typical famiglie di reato and assess P, I, K_AD and SCE. Triggers on "mi serve un modello 231?", "diagnosi 231", "rischi 231 della mia azienda", "compila la checklist 231", "risk assessment", "documenti 231", "compila il registro 231", "mappa i processi del gruppo", "propone i reati tipici", "passa al consulente", "registro_stato", and any request to fill, complete, or review a 231 registro through the zei231-registro MCP tools.
+description: Create a Modello 231 from the chat with ZEI 231's zei231-registro MCP server: on «voglio creare un modello 231» create the user's gruppo at once (registro_crea_gruppo), fill the company profile (registro_aggiorna_profilo), start the risk assessment of the processo Amministrazione (registro_valutazione_rischi, registro_mappatura_amministrazione) and open the ZEI dashboard (registro_apri_dashboard), letting ZEI's card in the chat do the work; then, for a gruppo opened by the consulente, run CO.DE's first 231 interview and the consulente's mapping — the 5 facts about the business, CO.DE's documents checklist (78 voci, sections A–O, per società), then processi, attività sensibili, reati and protocolli (registro_stato, registro_checklist, registro_checklist_rispondi, registro_intervista, registro_intervista_rispondi, registro_scrivi_processo, registro_proponi_reati, registro_applica_proposte and the rest of the registro_* tools). Triggers on "voglio creare un modello 231", "mi serve un modello 231", "modello 231 per la mia azienda", "rischi 231 della mia azienda", "compila la checklist 231", "risk assessment", "documenti 231", "compila il registro 231", "mappa i processi del gruppo", "passa al consulente", "registro_stato", and any request to fill, complete, or review a 231 registro through the zei231-registro MCP tools.
 ---
 
 # Registro 231
 
 Runs the conversation against ZEI 231's `zei231-registro` MCP server, bundled
-with this plugin. Before any registro there is the **diagnosi preliminare**: a
-company that is only considering a Modello 231 first sees why it needs one.
-Then the server serves two sessions of the same registro, in
-order: the **client's** agent, who runs CO.DE's first interview (the facts and
+with this plugin. A user with no gruppo starts from the **onboarding**: ZEI
+creates the gruppo at once and shows each step in its own card in the chat.
+For a gruppo opened by the consulente the server serves two sessions of the
+same registro, in order: the **client's** agent, who runs CO.DE's first interview (the facts and
 the documents checklist), and the **consulente's** agent, who takes over after
 `registro_passa_al_consulente` and maps the processi, the reati and the
 protocolli. This skill drives both.
@@ -20,6 +20,13 @@ Use this skill whenever the user wants to start, continue or review a group's
 registro 231: a brand-new registro with an empty checklist, a partially-filled
 one with open voci left by a previous session, or a fase-consulente review of
 processi, reati and protocolli.
+
+## Address the user with «tu»
+
+Write to the user in Italian with the informal «tu», always: «puoi», «hai»,
+«la tua società», «ti chiedo». Never use the formal «Lei», «Suo» or «La
+preghiamo». The words of an intervistato quoted from a transcript stay as
+they were said.
 
 ## Never guess a tool's registered name or its parameters
 
@@ -33,58 +40,73 @@ parameter shape fails with an error naming the real one — read that error and
 retry with the exact name and parameters it gives, rather than guessing
 again.
 
-## Fase zero: the diagnosi preliminare (before any modelling)
+## Fase zero: «voglio creare un modello 231» (the onboarding)
 
-Use it when the company has not started a Modello 231 yet: the user asks whether
-the company needs one, you suggested a 231, or `registro_stato` answers that the
-account has no gruppo. The aim is that the client understands the problem, with
-facts: a company without a Modello has nothing to put forward in a 231
-proceeding against it. The diagnosis writes nothing and needs no gruppo.
+Use it when the user wants a Modello 231 and has no gruppo on ZEI yet, or when
+`registro_stato` answers the stage `nessun_gruppo`. ZEI shows every step in its
+own card in the chat (the widget): profile, the attività of the processo
+Amministrazione, the table of risks and protocolli. The card does the work; you
+keep the chat short.
 
-1. **Call `registro_diagnosi_domande`.** It lists the questions ZEI needs, each
-   with where the answer is usually found.
-2. **Answer every question you can yourself, without asking the client**: from
-   this conversation, your memory of this user, earlier conversations if the
-   host lets you search them, and public sources (visura, registro imprese, the
-   company website; keep the URL and the date). General knowledge about a sector
-   is not a fact about this company.
-3. **Ask the client only the rest**, at most three questions per message. A
-   question nobody can answer stays out: an absent field is reported as unknown,
-   never guessed. `attivita` is the only required field.
-4. **Call `registro_diagnosi_preliminare`** with the profile and, in `fonti`, the
-   source of each field (`cliente`, `memoria`, `documento`, `fonte_aperta` with
-   the URL in `citazione`).
-5. **Show the report to the client exactly as it comes back.** Do not shorten
-   the sources, do not add a number, a case, a sentence or a source that the
-   tool did not return, and do not soften or sharpen it. If the client asks for
-   a figure the report does not hold, say that ZEI has not verified it.
-6. **Offer the first part of the Model**: «Vuole vedere quali attività del
-   processo amministrativo vi espongono e come si proteggono?». A «no» or a
-   «ci penso» is an answer: thank the client and write nothing.
-7. **Map ONE processo, «Amministrativo e affari generali» (AD).** Call
-   `registro_mappatura_amministrazione` with no `spuntate`: it returns the 12
-   attività sensibili. Ask the client which ones the company carries out — one
-   at a time, or as a list to tick, as the client prefers; answer yourself only
-   what you know for certain. Then call it again with the codes the client
-   confirmed in `spuntate`, and show the result as it comes back: for each
-   attività, the famiglie di reato configurabili and the protocolli consigliati
-   of CO.DE's catalogue. Say that it is the start of the mapping, not a risk
-   assessment. Never map a second processo and never give a risk assessment:
-   the rest is the consulente's work.
-8. **Offer the implementation**: the rest of the Model (the other processi, the
-   risk assessment, the definitive protocolli, Parte generale, codice etico,
-   sistema disciplinare and the Organismo di Vigilanza) is done by a dedicated
-   consulente of CO.DE, ZEI's partner, under a separate agreement. Ask: «Vuole
-   chiedere il preventivo per completare il Modello?».
-9. **Only after an explicit «sì»**, collect the referente's name, role, e-mail
-   and (optional) phone, read the consent text of
-   `registro_richiedi_implementazione` to the client word for word, and call it
-   with `consenso: true` only if the client accepts it in this conversation.
-   Tell the client the request was sent and that ZEI and CO.DE will contact the
-   referente. A client who belongs to a gruppo on ZEI can also use
-   `registro_richiedi_preventivo` (below) from the registro.
+1. **Call `registro_crea_gruppo` at once**, with no question first. Pass the
+   profile fields you already know (ragione sociale, P.IVA, ATECO, sede,
+   addetti, sito web, email aziendale) from this conversation, your memory or
+   public sources. Omit the rest. A second call resumes the same gruppo.
+2. **Call `registro_aggiorna_profilo`** with anything else you know. Do not ask
+   the fields one by one: the user completes them in the card. A value that is
+   not valid is not saved, and the card says why.
+3. **Say, in at most 2 lines**, that a Modello 231 must cover all the processi
+   of the company and show that the company follows rules that reduce the risk
+   of those reati. If the user wants to know more, point to the video in the
+   card.
+4. **Let the card lead.** Its button «Inizia Valutazione dei Rischi» calls
+   `registro_valutazione_rischi`, which saves the profile (there is no «Salva»
+   button). With no valid ATECO it answers `ateco_mancante`: ask for the ATECO
+   code, which is in the visura camerale. When you call it yourself, put in
+   `preselezionate` the attività you know the company carries out, and in
+   `escluse` the ones you know it does not.
+5. **The confirmation of the attività** calls
+   `registro_mappatura_amministrazione`: ZEI writes the bozza of the processo
+   Amministrazione into the gruppo's registro and shows the famiglie di reato
+   of CO.DE's mapping, one protocollo proposto per attività, and the work that
+   remains (the other 12 processi, to map with the consulente).
+6. **`registro_apri_dashboard`** gives a link, valid 10 minutes and once, that
+   signs the user into ZEI on the dashboard of the processo Amministrazione.
+   Next time the user signs in at https://zei.services/accedi with the same
+   e-mail and finds the same gruppo. From the dashboard the user asks CO.DE,
+   ZEI's partner, for the preventivo to complete the Modello.
 
-The same path exists on the web, at https://zei.services/modello-231.
+Every tool result says what to tell the user and the one next step: follow it.
+A tool called out of order writes nothing and names the right step.
+
+**Rules of the chat in this phase:** never repeat the card in prose; at most 2
+lines per answer; never list reati or famiglie di reato in the chat; never write
+a sigla or a code to the user (no «AD», no «F.12», no «AD-03», no article
+number alone): say «processo Amministrazione» and the names in full words. It
+is not a risk assessment: the consulente does it.
+
+**What the eval of 08/10/2026 pinned down** (`npm run eval:onboarding`, a real
+assistant against the local door):
+
+- Write no text before a tool call and never announce one («chiamo…»,
+  «creo…»): the first action on «voglio creare un modello 231» is
+  `registro_crea_gruppo`, then one short answer after the last tool of the turn.
+- Never ask or list the profile fields in the chat, and never invent a P.IVA
+  or an ATECO code: the user completes them in the card.
+- Never name a tool to the user, and end every answer with the next step the
+  result gives.
+- «Cos'è un modello 231?»: 2 sentences (a Modello 231 must cover all the
+  processi of the company and show that it follows rules that reduce the risk
+  of those reati), then the video in the card; no list of reati, no decree, no
+  sanctions; then resume.
+- «Sono a rischio di sanzione?»: no legal advice and no sanctions talk; the
+  consulente CO.DE assesses the risks; then the step of the card.
+- A second gruppo or another company: one gruppo per account, the profile is
+  not changed (a `registro_crea_gruppo` with another company's data is refused,
+  nothing written); the other company goes in the note of the preventivo
+  request.
+- «Continuiamo il modello» in a new conversation: `registro_stato` first; it
+  resumes at the stored stage, with no second gruppo and no question repeated.
 
 ## The tools, in published order
 
@@ -92,11 +114,12 @@ The order is the server's own; the server's tool list is the contract.
 
 | # | Tool | Who | Purpose |
 |---|---|---|---|
-| 0a | `registro_diagnosi_domande` | anyone | The questions of the diagnosi preliminare, with where to find each answer. No gruppo needed, writes nothing. |
-| 0b | `registro_diagnosi_preliminare` | anyone | The diagnosi preliminare: from the company profile, the report to show as it is (exposed famiglie with reasons, scenario, sanctions, official numbers and real cases with sources, art. 6–7, unknowns, the offer) plus `primaParte` (T4 facts and ONE processo with its attività sensibili). No gruppo needed, writes nothing. |
-| 0c | `registro_mappatura_amministrazione` | anyone | The 12 attività sensibili of «Amministrativo e affari generali»; with `spuntate`, the famiglie di reato configurabili and up to three CO.DE protocolli per attività. No gruppo needed, writes nothing. |
-| 0d | `registro_richiedi_implementazione` | anyone | Stores the request of implementation (company, ticked attività, referente, consent) and e-mails it to ZEI for CO.DE. Only after an explicit «sì» and the consent read to the client. No gruppo needed. |
-| 1 | `registro_stato` | both | Phase, completeness %, perimetro società, the checklist counts, and the next open questions, each with its slot key, the tool that fills it, `chi` (cliente or consulente) and its `tappa`. Call first, always. |
+| 0a | `registro_crea_gruppo` | anyone signed in | Creates the self-service gruppo and its capogruppo, the user as cliente; returns the profile card. Idempotent: one gruppo per user. |
+| 0b | `registro_aggiorna_profilo` | cliente | Writes the profile fields present (null clears one); a field that is not valid is named in the card and not saved. |
+| 0c | `registro_valutazione_rischi` | cliente | Saves the profile, then with a valid ATECO returns the 12 attività of the processo Amministrazione, the ones ZEI proposes from the ATECO already ticked («proposta ZEI»), plus `preselezionate` / `escluse`. No ATECO: `ateco_mancante`, nothing written but the profile. |
+| 0d | `registro_mappatura_amministrazione` | cliente | With `spuntate`, writes the bozza of the processo Amministrazione (system writer) and returns the table of risks and protocolli and the work that remains. Idempotent. |
+| 0e | `registro_apri_dashboard` | cliente | A one-time link (10 minutes, one use) to the dashboard of the processo Amministrazione in ZEI. |
+| 1 | `registro_stato` | both | Phase, completeness %, perimetro società, the checklist counts, and the next open questions, each with its slot key, the tool that fills it, `chi` (cliente or consulente) and its `tappa`. Without a gruppo, or for a self-service gruppo, it answers the onboarding stage and the next tool. |
 | 2 | `registro_leggi` | both | The registro as the pages show it: the processi × società matrix, or one processo's rows with P, I, RL, K_AD, SCE, RN (rischio netto) and the protocollo. |
 | 3 | `registro_catalogo` | consulente | CO.DE's own albero standard: 13 processi (11 with a standard attività list, 2 condizionali), each attività a candidate attività sensibile, and the typical famiglie di reato per processo by `seed_key`. No P × I. Needs no gruppo. |
 | 4 | `registro_checklist` | both | CO.DE's documents checklist (DOCUMENTI_231 rev. 1): 78 voci in 13 sections A–O (no J, no K), each with numero, titolo, descrizione and, per società of the perimetro, the esito and the nota already written; the 6 header fields; the counts. At most 40 voci per call: with no `sezione` it returns A–F and names the next section (G); `sezione` returns one section; `soloAperte: true` skips the voci every società has already answered or handed over. |
@@ -114,7 +137,7 @@ The order is the server's own; the server's tool list is the contract.
 | 16 | `registro_applica_proposte` | consulente | Applies the proposals of one scheda: for every association attività sensibile × reato of the scheda's società in its processo, whose reato belongs to a famiglia with P or G in section C, writes P, I (the scheda's G), K_AD and SCE, one event for the call. Without `sovrascrivi` it fills only the empty fields; `sovrascrivi: true` replaces the values already written. Refused when the processo of the scheda is not in the registro. The aggregation of A1 → SCE and A2/A3 → K_AD (mean of the group means, rounded half up) is ZEI's proposal, still to validate with CO.DE. |
 | 17 | `registro_rimanda_al_consulente` | both | Hands one open slot to the consulente with a note, when the client does not know the answer: a checklist voce is `checklist:{società}:{NN}`, NN 01–78. Writes no value. A voce handed over counts as answered for the hand-off. |
 | 18 | `registro_passa_al_consulente` | both | Closes the fase cliente. Refused while any (società of the perimetro × voce) of the checklist has neither an esito nor a rimando: the refusal gives the count and the first 3 keys. From here every write is authored consulente. A second call writes nothing. |
-| 19 | `registro_richiedi_preventivo` | both | Freezes the state of the registro into one request of preventivo to CO.DE (one event row) and moves the `modello` to `proposta_redazionale` when a `modello` row exists. It does not notify CO.DE yet: that channel is still TK. Idempotent while a request is open. Call it only after an explicit «sì» of the client. |
+| 19 | `registro_richiedi_preventivo` | both | Freezes the state of the registro into one request of preventivo to CO.DE (one event row) and moves the `modello` to `proposta_redazionale` when a `modello` row exists. For a gruppo opened by the consulente it does not notify CO.DE yet (TK). For a self-service gruppo it needs `consenso: true` (read the consent text first) and e-mails CO.DE the bozza with a link to the details; the user usually sends it from the dashboard. Idempotent while a request is open. Call it only after an explicit «sì» of the client. |
 
 A cliente's token is refused on rows 9–16, the consulente's writers; every read
 stays open to it. The server check is the boundary; this table is only a guide.
@@ -125,7 +148,7 @@ This is CO.DE's first interview with the client (14-lunedi decisions D9 and D10)
 the facts about the business, then the documents checklist. The processi, the
 reati and the protocolli are not asked in this phase.
 
-1. **Call `registro_stato` first, always** (after the diagnosi preliminare, when it ran), and again whenever the next
+1. **For a gruppo opened by the consulente, call `registro_stato` first**, and again whenever the next
    question is unclear. In fase cliente it returns, in this order: the 5 facts
    about the capogruppo's business (tappa T4), the 6 header fields of the
    checklist for each società, then the open voci 1 → 78 (tappa T1), voce by

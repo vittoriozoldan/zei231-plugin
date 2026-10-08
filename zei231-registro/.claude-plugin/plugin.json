@@ -1,8 +1,8 @@
 {
   "name": "zei231-registro",
   "displayName": "ZEI 231 — Registro",
-  "version": "1.2.0",
-  "description": "Diagnosi preliminare 231 di una società (reati esposti, sanzioni, numeri e casi reali con le fonti), mappatura del processo amministrativo con reati e protocolli consigliati, e richiesta di implementazione del Modello a CO.DE; per i gruppi invitati, il registro 231 completo. Tramite l'MCP di ZEI 231.",
+  "version": "1.3.0",
+  "description": "Crea il Modello 231 dalla chat: il gruppo e il profilo della società, la valutazione dei rischi del processo Amministrazione con le famiglie di reato e i protocolli proposti dal catalogo di CO.DE, la dashboard in ZEI e la richiesta di preventivo a CO.DE; per i gruppi aperti dal consulente, il registro 231 completo. Tramite l'MCP di ZEI 231.",
   "author": {
     "name": "Vittorio Zoldan",
     "email": "vittorio@gruppopresidium.it",
