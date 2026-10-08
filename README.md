@@ -7,6 +7,6 @@ Marketplace di Claude Code per [ZEI 231](https://zei.services), il gestionale de
 /plugin install zei231-registro@zei231
 ```
 
-Il plugin `zei231-registro` collega Claude all'MCP di ZEI 231: diagnosi preliminare 231 con le fonti, mappatura del processo amministrativo con reati e protocolli consigliati, e richiesta di implementazione del Modello al consulente partner CO.DE. Dettagli in [zei231-registro/README.md](zei231-registro/README.md) e nella [guida](https://zei.services/guida).
+Il plugin `zei231-registro` collega Claude all'MCP di ZEI 231. Scrivi «Voglio creare un modello 231»: ZEI crea il gruppo della tua società, mostra il profilo, le attività sensibili del processo Amministrazione con le famiglie di reato e i protocolli proposti, e apre la richiesta di preventivo al consulente partner CO.DE. Dettagli in [zei231-registro/README.md](zei231-registro/README.md) e nella [guida](https://zei.services/guida).
 
 Privacy: https://zei.services/privacy · Termini: https://zei.services/termini · Supporto: https://zei.services/supporto
