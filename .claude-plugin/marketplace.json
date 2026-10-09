@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "ZEI 231: Modello 231 (D.Lgs. 231/2001) per l'era agentica.",
-    "version": "1.4.0"
+    "version": "1.4.1"
   },
   "plugins": [
     {
       "name": "zei231-registro",
       "source": "./zei231-registro",
       "description": "Risposte sul Modello 231 con fonti di legge e registro 231 dalla chat: profilo, attività sensibili del processo Amministrazione, famiglie di reato e protocolli proposti, poi il preventivo del consulente partner CO.DE.",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "homepage": "https://zei.services/guida",
       "repository": "https://github.com/ZEI-231/zei231-plugin",
       "license": "MIT"
