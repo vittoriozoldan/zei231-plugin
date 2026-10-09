@@ -1,0 +1,93 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "zei231-registro",
+  "version": "1.4.0",
+  "description": "Answers questions on the Italian Modello 231 (Legislative Decree 231/2001) with sourced facts and builds the company's 231 register from the chat: profile, risk assessment of the Administration process, offence families, proposed protocols, and a quote request to the partner consultancy CO.DE.",
+  "author": {
+    "name": "ZEI 231",
+    "email": "dirigenza@gruppopresidium.it",
+    "url": "https://zei.services"
+  },
+  "homepage": "https://zei.services/guida",
+  "repository": "https://github.com/ZEI-231/zei231-plugin",
+  "license": "MIT",
+  "keywords": ["modello 231", "d.lgs 231/2001", "organismo di vigilanza", "reati presupposto", "codice etico", "whistleblowing"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "ZEI 231",
+        "shortDescription": "Modello 231 dalla chat",
+        "longDescription": "ZEI 231 helps an Italian company, or a group of companies, start its Modello 231 under Legislative Decree 231/2001 from a conversation. Three skills answer general questions (what the Model is, who must adopt it, offence families, supervisory body, code of ethics, whistleblowing, structure) from legal texts checked against Normattiva on 09/10/2026; where the law is silent or debated, the answer says so. The fourth skill uses the ZEI 231 tools: the user creates the group and the company profile, then maps the Administration process. ZEI 231 shows 12 sensitive activities and preselects the likely ones from the ATECO code. For each activity that the user keeps, it shows the offence families and a proposed control protocol. The result is a draft in the group register. From the chat, the user can open the ZEI 231 dashboard with a one-time link and ask the partner consultancy CO.DE for a quote; the request is sent only after the user agrees. The first mapping is an automatic analysis. It is not legal advice. The service is in Italian. Sign-in uses OAuth with PKCE. Data stays in the EU (Frankfurt), except for the providers that the privacy notice lists.",
+        "developerName": "ZEI 231",
+        "category": "Productivity",
+        "capabilities": ["Answer Modello 231 questions", "Create company register", "Map offence families"],
+        "websiteURL": "https://zei.services",
+        "supportURL": "https://zei.services/supporto",
+        "privacyPolicyURL": "https://zei.services/privacy",
+        "termsOfServiceURL": "https://zei.services/termini",
+        "defaultPrompt": [
+          "Il modello 231 è obbligatorio per una srl?",
+          "Quali reati presupposto riguardano un'azienda edile?",
+          "Voglio creare un modello 231 per la mia società."
+        ]
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Start the register from the chat",
+              "prompt": "Voglio creare un Modello 231 per la mia società.",
+              "tools_triggered": "registro_crea_gruppo",
+              "expected_behavior": "Creates the group at once, or asks for the company data first, and shows the profile card."
+            },
+            {
+              "description": "Save the company profile",
+              "prompt": "La società è Demo Srl, codice ATECO 41.20.00.",
+              "tools_triggered": "registro_aggiorna_profilo",
+              "expected_behavior": "Writes the profile fields and shows them in the card."
+            },
+            {
+              "description": "Start the risk assessment of the Administration process",
+              "prompt": "Iniziamo la valutazione dei rischi del processo Amministrazione.",
+              "tools_triggered": "registro_valutazione_rischi",
+              "expected_behavior": "Shows the 12 activities of the process, with the likely ones preselected from the ATECO code."
+            },
+            {
+              "description": "Map offences and protocols for the chosen activities",
+              "prompt": "Quali reati e protocolli valgono per le attività che ho scelto?",
+              "tools_triggered": "registro_mappatura_amministrazione",
+              "expected_behavior": "Writes the draft of the process and shows the offence families and one proposed protocol per activity."
+            },
+            {
+              "description": "Open the dashboard",
+              "prompt": "Apri la dashboard in ZEI.",
+              "tools_triggered": "registro_apri_dashboard",
+              "expected_behavior": "Returns a one-time link, valid 10 minutes, to the dashboard."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unrelated question: weather",
+              "prompt": "Che tempo fa domani a Milano?",
+              "expected_behavior": "No ZEI 231 skill or tool is used."
+            },
+            {
+              "description": "Unrelated task: letter",
+              "prompt": "Scrivimi una lettera di dimissioni.",
+              "expected_behavior": "No ZEI 231 skill or tool is used."
+            },
+            {
+              "description": "Unrelated question: VAT",
+              "prompt": "Come si calcola l'IVA su una fattura?",
+              "expected_behavior": "No ZEI 231 skill or tool is used."
+            }
+          ]
+        }
+      },
+      "publication": {
+        "countries": [],
+        "release_notes": "1.4.0: adds three skills that answer questions on the Modello 231 (general orientation, offence families, supervisory body, code of ethics, whistleblowing and structure) from legal texts checked on 09/10/2026. The register skill and the MCP server are unchanged."
+      }
+    }
+  }
+}

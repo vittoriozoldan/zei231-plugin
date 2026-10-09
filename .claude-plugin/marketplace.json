@@ -1,20 +1,21 @@
 {
   "name": "zei231",
   "owner": {
-    "name": "Vittorio Zoldan",
-    "email": "vittorio@gruppopresidium.it"
+    "name": "ZEI 231",
+    "email": "dirigenza@gruppopresidium.it"
   },
   "metadata": {
     "description": "ZEI 231: Modello 231 (D.Lgs. 231/2001) per l'era agentica.",
-    "version": "1.3.0"
+    "version": "1.4.0"
   },
   "plugins": [
     {
       "name": "zei231-registro",
       "source": "./zei231-registro",
-      "description": "Crea il Modello 231 della tua società dalla chat: profilo, attività sensibili del processo Amministrazione, famiglie di reato e protocolli proposti, poi il preventivo del consulente partner CO.DE.",
-      "version": "1.3.0",
+      "description": "Risposte sul Modello 231 con fonti di legge e registro 231 dalla chat: profilo, attività sensibili del processo Amministrazione, famiglie di reato e protocolli proposti, poi il preventivo del consulente partner CO.DE.",
+      "version": "1.4.0",
       "homepage": "https://zei.services/guida",
+      "repository": "https://github.com/ZEI-231/zei231-plugin",
       "license": "MIT"
     }
   ]

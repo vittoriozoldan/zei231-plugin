@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "zei231-registro": {
+      "type": "streamable-http",
+      "url": "https://zei.services/api/mcp"
+    }
+  }
+}

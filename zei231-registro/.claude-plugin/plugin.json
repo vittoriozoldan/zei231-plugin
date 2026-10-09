@@ -1,21 +1,25 @@
 {
   "name": "zei231-registro",
   "displayName": "ZEI 231 — Registro",
-  "version": "1.3.0",
-  "description": "Crea il Modello 231 dalla chat: il gruppo e il profilo della società, la valutazione dei rischi del processo Amministrazione con le famiglie di reato e i protocolli proposti dal catalogo di CO.DE, la dashboard in ZEI e la richiesta di preventivo a CO.DE; per i gruppi aperti dal consulente, il registro 231 completo. Tramite l'MCP di ZEI 231.",
+  "version": "1.4.0",
+  "description": "Risponde alle domande sul Modello 231 (D.Lgs. 231/2001) con fonti di legge e crea il registro 231 della tua società dalla chat: profilo, valutazione dei rischi del processo Amministrazione, famiglie di reato e protocolli proposti, dashboard in ZEI, richiesta di preventivo al consulente partner CO.DE. Tramite l'MCP di ZEI 231.",
   "author": {
-    "name": "Vittorio Zoldan",
-    "email": "vittorio@gruppopresidium.it",
+    "name": "ZEI 231",
+    "email": "dirigenza@gruppopresidium.it",
     "url": "https://zei.services"
   },
   "license": "MIT",
   "keywords": [
-    "d.lgs 231",
-    "compliance",
     "modello 231",
-    "odv",
+    "d.lgs 231/2001",
+    "organismo di vigilanza",
+    "reati presupposto",
+    "codice etico",
+    "whistleblowing",
+    "parte speciale",
+    "compliance",
     "risk register"
   ],
   "homepage": "https://zei.services/guida",
-  "repository": "https://github.com/vittoriozoldan/zei231-plugin"
+  "repository": "https://github.com/ZEI-231/zei231-plugin"
 }
