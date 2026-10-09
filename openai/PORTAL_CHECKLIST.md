@@ -8,7 +8,7 @@ The path is "With MCP": the MCP server must be in the first ZIP. It cannot be ad
 |---|---|---|
 | 1 | OpenAI platform account, organisation owner or Apps Management Write | Vittorio |
 | 2 | Individual or business verification (developer identity) | Vittorio |
-| 3 | `assets/logo.png` and `assets/icon.png` (square, at least 48x48, PNG/JPEG/WebP/SVG, max 5 MiB) and add `logo` and `composerIcon` to `interface` | missing (TK) |
+| 3 | `assets/logo.png` and `assets/icon.png` | done (512 px, from icon.svg) |
 | 4 | Domain token: `https://zei.services/.well-known/openai-apps-challenge` returned 307 to /accedi on 09/10/2026. Allow the path in the proxy | repo change, needs approval |
 | 5 | Demo video URL (`review.demo_recording_url`), reviewer-accessible | missing (TK) |
 | 6 | Reviewer account in the secure dashboard form: no MFA, no code, no magic link. Not in the ZIP | Vittorio |
